@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F.A.C.T. Tchat</title>
+    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        #chat { width: 300px; margin: auto; border: 1px solid #ccc; padding: 10px; }
+        #messages { height: 300px; overflow-y: scroll; border-bottom: 1px solid #ccc; }
+        input { width: 80%; padding: 5px; }
+        button { padding: 5px; }
+    </style>
+</head>
+<body>
+    <h2>F.A.C.T. Tchat</h2>
+    <div id="username-section">
+        <input type="text" id="username" placeholder="Choisissez un pseudo...">
+        <button onclick="setUsername()">Valider</button>
+    </div>
+    <div id="chat" style="display:none;">
+        <div id="messages"></div>
+        <input type="text" id="message" placeholder="Votre message...">
+        <button onclick="sendMessage()">Envoyer</button>
+    </div>
+    
+    <script>
+        const socket = io("http://localhost:3000");
+        let username = "";
+
+        function setUsername() {
+            const usernameInput = document.getElementById("username").value.trim();
+            if (usernameInput !== "") {
+                username = usernameInput;
+                document.getElementById("username-section").style.display = "none";
+                document.getElementById("chat").style.display = "block";
+            }
+        }
+
+        function sendMessage() {
+            const messageInput = document.getElementById("message");
+            const message = messageInput.value.trim();
+            if (message !== "") {
+                socket.emit("chatMessage", { user: username, text: message });
+                messageInput.value = "";
+            }
+        }
+
+        socket.on("chatMessage", msg => {
+            const msgElement = document.createElement("div");
+            msgElement.innerHTML = `<strong>${msg.user}:</strong> ${msg.text}`;
+            document.getElementById("messages").appendChild(msgElement);
+        });
+    </script>
+</body>
+</html>
