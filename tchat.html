@@ -26,23 +26,29 @@
         <button onclick="sendMessage()">Envoyer</button>
     </div>
 
-    <script>
-        // 🔥 Configuration Firebase (remplace avec tes clés)
+    <script type="module">
+        // ✅ Importation correcte pour Firebase v9+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+        import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+    
+        // 🔥 Configuration Firebase (remplace avec tes propres valeurs !)
         const firebaseConfig = {
-            apiKey: "AIzaSyAlizdDG_SxQKN8PmjWnFA5eF-W7mthM5I",
-            authDomain: "fact-dd7f2.firebaseapp.com",
-            databaseURL: "https://fact-dd7f2-default-rtdb.europe-west1.firebasedatabase.app",
-            projectId: "fact-dd7f2",
-            storageBucket: "fact-dd7f2.firebasestorage.app",
-            messagingSenderId: "566920150102",
-            appId: "1:566920150102:web:9eb4cae38f299f49280ff7"
+            apiKey: "TA_CLE_API",
+            authDomain: "TON_AUTH_DOMAIN",
+            databaseURL: "TON_DATABASE_URL",
+            projectId: "TON_PROJECT_ID",
+            storageBucket: "TON_STORAGE_BUCKET",
+            messagingSenderId: "TON_MESSAGING_SENDER_ID",
+            appId: "TON_APP_ID"
         };
-        
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.database().ref("messages");
-
+    
+        // ✅ Initialisation Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const messagesRef = ref(db, "messages");
+    
         let username = "";
-
+    
         function setUsername() {
             const usernameInput = document.getElementById("username").value.trim();
             if (usernameInput !== "") {
@@ -51,22 +57,23 @@
                 document.getElementById("chat").style.display = "block";
             }
         }
-
+    
         function sendMessage() {
             const messageInput = document.getElementById("message");
             const message = messageInput.value.trim();
             if (message !== "") {
-                db.push().set({ user: username, text: message, timestamp: Date.now() });
+                push(messagesRef, { user: username, text: message, timestamp: Date.now() });
                 messageInput.value = "";
             }
         }
-
-        db.on("child_added", snapshot => {
+    
+        onChildAdded(messagesRef, snapshot => {
             const msg = snapshot.val();
             const msgElement = document.createElement("div");
             msgElement.innerHTML = `<strong>${msg.user}:</strong> ${msg.text}`;
             document.getElementById("messages").appendChild(msgElement);
         });
     </script>
+    
 </body>
 </html>
