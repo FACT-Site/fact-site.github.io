@@ -29,6 +29,9 @@ nav a {
 
 main {
     padding: 20px;
+    background-image: url("fond.png");
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 .article {
@@ -42,8 +45,9 @@ footer {
 }
 
 section {
-    background-color: #777777;
+    background-color: #777777d3;
     border-radius: 15px;
     text-align: center;
     margin: auto;
+    box-shadow: black 5px 5px 5px;
 }
