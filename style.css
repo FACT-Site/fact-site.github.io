@@ -1,0 +1,49 @@
+body {
+    font-family:Arial;
+    background-color: #a5a5a5d2;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #2e08b6da;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav li {
+    display: inline;
+    margin: 0 10px;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+}
+
+main {
+    padding: 20px;
+}
+
+.article {
+    margin-bottom: 20px;
+}
+
+footer {
+    background-color: #777777;
+    padding: 10px;
+    text-align: center;
+}
+
+section {
+    background-color: #777777;
+    border-radius: 15px;
+    text-align: center;
+    margin: auto;
+}
